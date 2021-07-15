@@ -3,6 +3,10 @@
 <label id="b-v">B: 100</label><input id="b" type="range" min="0" max="255" />
 
 <div id="color" style="width: 100px; height: 100px"></div>
+
+<label>Name:</label><input id="name-input" value="Wyatt" />
+
+<div id="text">Hello {{name}}!</div>
 <script>
   let handlers = new Map();
   let reactivities = new Map();
@@ -97,5 +101,19 @@
     document.getElementById(
       "color"
     ).style.backgroundColor = `rgb(${p.r}, ${p.g}, ${p.b})`;
+  });
+
+  let range = document.createRange();
+  range.setStart(document.getElementById("text").childNodes[0], 6);
+  range.setEnd(document.getElementById("text").childNodes[0], 14);
+  let data = reactive({ text: "Wyatt" });
+
+  document.getElementById("name-input").addEventListener("input", (event) => {
+    data.text = event.target.value;
+  });
+
+  effect(() => {
+    range.extractContents();
+    range.insertNode(document.createTextNode(data.text));
   });
 </script>
